@@ -69,12 +69,12 @@ async def create_report_fake(report: ReportRequestCreate, db: Session = Depends(
 
 
 @router.get("/report/get/{report_id}/", status_code=status.HTTP_200_OK)
-async def get_report(report_id: int, db: Session = Depends(get_db)):
-    report = report_service.get_report(db, report_id)
+async def get_report(report_reference: str, db: Session = Depends(get_db)):
+    report = report_service.get_report(db, report_reference)
     if not report:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Report not found with given report_id={report_id}",
+            detail=f"Report not found with given report_id={report_reference}",
         )
 
     return {"report": report}
@@ -82,10 +82,10 @@ async def get_report(report_id: int, db: Session = Depends(get_db)):
 
 @router.put("/report/update/{report_id}", status_code=status.HTTP_200_OK)
 async def update_report(
-        report_id: int, report: ReportRequestUpdate, db: Session = Depends(get_db)
+        report_reference: str, report: ReportRequestUpdate, db: Session = Depends(get_db)
 ):
     try:
-        report, err = report_service.update_report(db, report_id, report)
+        report, err = report_service.update_report(db, report_reference, report)
     except Exception as err:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(err)
@@ -94,16 +94,16 @@ async def update_report(
     if err:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Report not found with given report_id={report_id}",
+            detail=f"Report not found with given report_id={report_reference}",
         )
 
     return {"report": report}
 
 
 @router.delete("/report/delete/{report_id}", status_code=status.HTTP_200_OK)
-async def delete_report(report_id: int, db: Session = Depends(get_db)):
+async def delete_report(report_reference: str, db: Session = Depends(get_db)):
     try:
-        err = report_service.delete_report(db, report_id)
+        err = report_service.delete_report(db, report_reference)
     except Exception as err:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(err)
@@ -112,7 +112,7 @@ async def delete_report(report_id: int, db: Session = Depends(get_db)):
     if err:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Report not found with given report_id={report_id}",
+            detail=f"Report not found with given report_id={report_reference}",
         )
 
     return {"message": "Deleted"}

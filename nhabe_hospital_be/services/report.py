@@ -78,8 +78,6 @@ def create_report_fake(db: Session, report: ReportRequestCreate) -> Tuple[Option
     report.created_at = fake.date_time().timestamp()
     report.updated_at = fake.date_time().timestamp()
 
-    print(f"Report: {report}")
-
     # Save the report to the database
     # db.add(report)
     # db.commit()

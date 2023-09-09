@@ -1,4 +1,5 @@
 import os
+import re
 from fastapi import HTTPException, Request
 from fastapi.security import HTTPBearer
 from jose import jwt
@@ -10,11 +11,12 @@ bearer_scheme = HTTPBearer()
 SECRET_KEY = os.getenv('SECRET_KEY', 'nhabehospital')
 ALGORITHM = os.getenv('ALGORITHM', 'HS256')
 user_repository = UserRepository()
-excluded_endpoints = ["/", "/docs", "/openapi.json", "/token", "/report/create/", "/report/create/fake/", "/refresh-token", "/report/update"]
+excluded_endpoints = ["/", "/docs", "/openapi.json", "/token", "/report/create/", "/report/create/fake/", "/refresh-token"]
 
 
 async def check_bearer_token(request: Request, call_next):
-    if request.url.path in excluded_endpoints:
+    print(re.search(pattern=r"/report/update/", string=request.url.path))
+    if request.url.path in excluded_endpoints or re.search(pattern=r"/report/update/", string=request.url.path) is not None:
         # Skip token validation for excluded endpoints
         response = await call_next(request)
         return response

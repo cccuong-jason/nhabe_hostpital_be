@@ -42,7 +42,7 @@ class ReportBase(BaseModel):
     observer_1: Optional[str] = None
     observer_2: Optional[str] = None
     title: Optional[str] = None
-    status: Optional[str] = None
+    status: Optional[str] = 'đang xử lý'
     situation_classification: Optional[SituationClassification] = None
     damage_classification: Optional[DamageClassification] = None
     created_at: Optional[datetime] = None

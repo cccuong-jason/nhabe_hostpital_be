@@ -10,7 +10,7 @@ bearer_scheme = HTTPBearer()
 SECRET_KEY = os.getenv('SECRET_KEY', 'nhabehospital')
 ALGORITHM = os.getenv('ALGORITHM', 'HS256')
 user_repository = UserRepository()
-excluded_endpoints = ["/", "/docs", "/openapi.json", "/token", "/report/create/", "/report/create/fake/", "/refresh-token"]
+excluded_endpoints = ["/", "/docs", "/openapi.json", "/token", "/report/create/", "/report/create/fake/", "/refresh-token", "/report/update"]
 
 
 async def check_bearer_token(request: Request, call_next):

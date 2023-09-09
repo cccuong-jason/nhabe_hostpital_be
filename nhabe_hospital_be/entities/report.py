@@ -41,7 +41,7 @@ class Report(Base):
     observer_1 = Column(String, default=None)
     observer_2 = Column(String, default=None)
     title = Column(String, default=None)
-    status = Column(String, default=None)
+    status = Column(String, default='đang xử lý')
     situation_classification = Column(Enum(SituationClassification))
     damage_classification = Column(Enum(DamageClassification))
     created_at = Column(DateTime, default=None)
